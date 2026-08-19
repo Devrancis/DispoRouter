@@ -1,13 +1,29 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
+// prisma/schema.prisma
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Buyer {
+  id              String   @id @default(cuid())
+  name            String
+  budgetMax       Int      
+  floodZone       String   
+  requiresSeawall Boolean  @default(false)
+  minSqFt         Int      
+}
+
+model PropertySubmission {
+  id              String   @id @default(cuid())
+  apn             String   
+  askingPrice     Int
+  floodZone       String
+  hasSeawall      Boolean
+  sqFt            Int
+  status          String   @default("PENDING") 
 }
