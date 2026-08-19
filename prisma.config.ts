@@ -1,10 +1,13 @@
-export default {
-  migrations: {
+import { defineConfig } from '@prisma/config'
+import { config } from 'dotenv'
 
-    seed: 'npx tsx ./prisma/seed.ts', 
+config()
+
+export default defineConfig({
+  migrations: {
+    seed: 'npx tsx ./prisma/seed.ts',
   },
   datasource: {
-    url: process.env.DATABASE_URL,
-    directUrl: process.env.DIRECT_URL,
+    url: process.env.DIRECT_URL,
   },
-}
+})

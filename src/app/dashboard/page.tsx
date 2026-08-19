@@ -1,13 +1,19 @@
 // src/app/dashboard/page.tsx
 import { PrismaClient } from '@prisma/client'
-import { findMatchingBuyer } from '../actions'
+import { PrismaNeon } from '@prisma/adapter-neon'
+import { neonConfig } from '@neondatabase/serverless'
+import ws from 'ws'
+import { findMatchingBuyer } from '../engine'
 import Link from 'next/link'
 
-const prisma = new PrismaClient({
-  datasourceUrl: process.env.DATABASE_URL
+neonConfig.webSocketConstructor = ws
+
+const adapter = new PrismaNeon({ 
+  connectionString: process.env.DATABASE_URL! 
 })
 
-// Disable caching so the dashboard updates instantly for the demo
+const prisma = new PrismaClient({ adapter })
+
 export const dynamic = 'force-dynamic' 
 
 export default async function DashboardPage() {

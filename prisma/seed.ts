@@ -1,12 +1,18 @@
-// prisma/seed.ts
+import 'dotenv/config' 
 import { PrismaClient } from '@prisma/client'
+import { PrismaNeon } from '@prisma/adapter-neon'
+import { neonConfig } from '@neondatabase/serverless'
+import ws from 'ws'
 
-const prisma = new PrismaClient({
-  datasourceUrl: process.env.DATABASE_URL
+neonConfig.webSocketConstructor = ws
+
+const adapter = new PrismaNeon({ 
+  connectionString: process.env.DATABASE_URL! 
 })
 
+const prisma = new PrismaClient({ adapter })
+
 async function main() {
-  // Clear existing buyers to prevent duplicates on re-runs
   await prisma.buyer.deleteMany()
 
   await prisma.buyer.createMany({
