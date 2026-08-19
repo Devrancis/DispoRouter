@@ -5,7 +5,9 @@ import { PrismaClient, Buyer, PropertySubmission } from '@prisma/client'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL
+})
 
 /**
  * Core Matching Engine:

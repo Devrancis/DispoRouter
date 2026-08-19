@@ -3,7 +3,9 @@ import { PrismaClient } from '@prisma/client'
 import { findMatchingBuyer } from '../actions'
 import Link from 'next/link'
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL
+})
 
 // Disable caching so the dashboard updates instantly for the demo
 export const dynamic = 'force-dynamic' 
