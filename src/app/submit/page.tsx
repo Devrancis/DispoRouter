@@ -3,62 +3,59 @@ import { submitProperty } from '../actions'
 
 export default function SubmitPage() {
   return (
-    <div className="min-h-screen bg-zinc-950 flex items-center justify-center p-6 text-zinc-100 font-sans">
-      <div className="w-full max-w-md bg-zinc-900 rounded-2xl border border-zinc-800 shadow-2xl p-8">
-        <div className="mb-8">
-          <h1 className="text-2xl font-bold text-white mb-2">New Property Deal</h1>
-          <p className="text-zinc-400 text-sm">Enter deal specs to check for immediate buyer matches.</p>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 sm:p-6 font-sans">
+      <div className="w-full max-w-md bg-white rounded-2xl border border-gray-200 shadow-xl p-6 sm:p-8">
+        <div className="mb-6 sm:mb-8 border-b border-gray-100 pb-5">
+          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-1">New Property Deal</h1>
+          <p className="text-gray-500 text-xs sm:text-sm">Enter deal specs to cross-reference with active buyers.</p>
         </div>
 
         <form action={submitProperty} className="space-y-5">
-          {/* APN */}
           <div>
-            <label htmlFor="apn" className="block text-sm font-medium text-zinc-300 mb-1">APN (Parcel Number)</label>
+            <label htmlFor="apn" className="block text-sm font-semibold text-gray-700 mb-1">APN (Parcel Number)</label>
             <input 
               type="text" 
               id="apn" 
               name="apn" 
               required 
               placeholder="e.g. 123-456-789"
-              className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+              className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 sm:py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all shadow-sm text-base"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            {/* Asking Price */}
+          {/* Stacks to 1 column on mobile, 2 columns on screens sm and up */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4">
             <div>
-              <label htmlFor="askingPrice" className="block text-sm font-medium text-zinc-300 mb-1">Asking Price ($)</label>
+              <label htmlFor="askingPrice" className="block text-sm font-semibold text-gray-700 mb-1">Asking Price ($)</label>
               <input 
                 type="number" 
                 id="askingPrice" 
                 name="askingPrice" 
                 required 
                 placeholder="100000"
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 sm:py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all shadow-sm text-base"
               />
             </div>
 
-            {/* Square Footage */}
             <div>
-              <label htmlFor="sqFt" className="block text-sm font-medium text-zinc-300 mb-1">Square Footage</label>
+              <label htmlFor="sqFt" className="block text-sm font-semibold text-gray-700 mb-1">Square Footage</label>
               <input 
                 type="number" 
                 id="sqFt" 
                 name="sqFt" 
                 required 
                 placeholder="10000"
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white placeholder-zinc-600 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors"
+                className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 sm:py-2.5 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all shadow-sm text-base"
               />
             </div>
           </div>
 
-          {/* Flood Zone */}
           <div>
-            <label htmlFor="floodZone" className="block text-sm font-medium text-zinc-300 mb-1">Flood Zone</label>
+            <label htmlFor="floodZone" className="block text-sm font-semibold text-gray-700 mb-1">Flood Zone</label>
             <select 
               id="floodZone" 
               name="floodZone" 
-              className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-colors appearance-none"
+              className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 sm:py-2.5 text-gray-900 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100 transition-all shadow-sm appearance-none text-base"
             >
               <option value="X">Zone X (Minimal Risk)</option>
               <option value="X500">Zone X500 (Moderate Risk)</option>
@@ -66,24 +63,22 @@ export default function SubmitPage() {
             </select>
           </div>
 
-          {/* Seawall Toggle */}
-          <div className="flex items-center justify-between py-2 border-t border-b border-zinc-800/50 mt-6">
+          <div className="flex items-center justify-between py-3 border-t border-b border-gray-100 mt-6">
             <div>
-              <p className="text-sm font-medium text-zinc-300">Has Seawall?</p>
-              <p className="text-xs text-zinc-500">Required by some premium buyers</p>
+              <p className="text-sm font-semibold text-gray-700">Has Seawall?</p>
+              <p className="text-xs text-gray-500">Required by some premium buyers</p>
             </div>
             <label className="relative inline-flex items-center cursor-pointer">
               <input type="checkbox" name="hasSeawall" className="sr-only peer" />
-              <div className="w-11 h-6 bg-zinc-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
+              <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-600"></div>
             </label>
           </div>
 
-          {/* Submit */}
           <button 
             type="submit" 
-            className="w-full bg-white text-black font-bold py-3 rounded-lg mt-4 hover:bg-zinc-200 transition-colors shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+            className="w-full bg-indigo-600 text-white font-bold py-3.5 sm:py-3 rounded-lg mt-4 hover:bg-indigo-700 transition-colors shadow-md hover:shadow-lg text-base"
           >
-            Submit to Dispo Engine &rarr;
+            Run Match Engine &rarr;
           </button>
         </form>
       </div>
