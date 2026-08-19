@@ -1,97 +1,98 @@
 // src/app/dashboard/page.tsx
 import { PrismaClient } from '@prisma/client'
-import { PrismaNeon } from '@prisma/adapter-neon'
-import { neonConfig } from '@neondatabase/serverless'
-import ws from 'ws'
 import { findMatchingBuyer } from '../engine'
 import Link from 'next/link'
 
+import { PrismaNeon } from '@prisma/adapter-neon'
+import { neonConfig } from '@neondatabase/serverless'
+import ws from 'ws'
 neonConfig.webSocketConstructor = ws
-
-const adapter = new PrismaNeon({ 
-  connectionString: process.env.DATABASE_URL! 
-})
-
+const adapter = new PrismaNeon({ connectionString: process.env.DATABASE_URL! })
 const prisma = new PrismaClient({ adapter })
 
 export const dynamic = 'force-dynamic' 
 
 export default async function DashboardPage() {
   const properties = await prisma.propertySubmission.findMany({ 
-    orderBy: { id: 'desc' } // Newest first
+    orderBy: { id: 'desc' }
   })
   const buyers = await prisma.buyer.findMany()
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 p-8 font-sans">
+    <div className="min-h-screen bg-gray-50 text-gray-900 p-4 sm:p-8 font-sans">
       <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between items-end mb-8">
+        
+        {/* Header section adjusts for mobile */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 sm:mb-8 gap-4 sm:gap-0">
           <div>
-            <h1 className="text-3xl font-bold text-white tracking-tight mb-2">Dispo Command Center</h1>
-            <p className="text-zinc-400">Live property submissions cross-referenced with your Buy Boxes.</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-1 sm:mb-2">Dispo Command Center</h1>
+            <p className="text-gray-500 text-sm sm:text-base font-medium">Live submissions cross-referenced with your Buy Boxes.</p>
           </div>
-          <Link href="/submit" className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold transition-colors">
+          <Link href="/submit" className="w-full sm:w-auto text-center bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 sm:py-2.5 rounded-lg text-sm font-bold shadow-sm transition-colors">
             + New Deal
           </Link>
         </div>
 
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden shadow-2xl">
-          <table className="w-full text-left text-sm">
-            <thead className="bg-zinc-900 border-b border-zinc-800 text-zinc-400">
-              <tr>
-                <th className="px-6 py-4 font-medium">APN</th>
-                <th className="px-6 py-4 font-medium">Asking Price</th>
-                <th className="px-6 py-4 font-medium">SqFt</th>
-                <th className="px-6 py-4 font-medium">Flood Zone</th>
-                <th className="px-6 py-4 font-medium">Seawall</th>
-                <th className="px-6 py-4 font-medium">Match Status</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-zinc-800/50">
-              {properties.length === 0 && (
+        {/* overflow-x-auto ensures the table scrolls left/right on phones instead of breaking the layout */}
+        <div className="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden flex flex-col">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-sm whitespace-nowrap min-w-[700px]">
+              <thead className="bg-gray-50 border-b border-gray-200 text-gray-600">
                 <tr>
-                  <td colSpan={6} className="px-6 py-12 text-center text-zinc-500">
-                    No properties submitted yet.
-                  </td>
+                  <th className="px-4 sm:px-6 py-4 font-bold">APN</th>
+                  <th className="px-4 sm:px-6 py-4 font-bold">Asking Price</th>
+                  <th className="px-4 sm:px-6 py-4 font-bold">SqFt</th>
+                  <th className="px-4 sm:px-6 py-4 font-bold">Flood Zone</th>
+                  <th className="px-4 sm:px-6 py-4 font-bold">Seawall</th>
+                  <th className="px-4 sm:px-6 py-4 font-bold">Match Status</th>
                 </tr>
-              )}
-              
-              {properties.map((prop) => {
-                // Run our dynamic matching logic!
-                const matchedBuyer = findMatchingBuyer(prop, buyers)
-                
-                return (
-                  <tr 
-                    key={prop.id} 
-                    className={`transition-colors hover:bg-zinc-800/30 ${matchedBuyer ? 'bg-green-950/20' : ''}`}
-                  >
-                    <td className="px-6 py-4 font-mono text-zinc-300">{prop.apn}</td>
-                    <td className="px-6 py-4 font-medium">${prop.askingPrice.toLocaleString()}</td>
-                    <td className="px-6 py-4">{prop.sqFt.toLocaleString()}</td>
-                    <td className="px-6 py-4">
-                      <span className="bg-zinc-800 text-zinc-300 px-2 py-1 rounded text-xs">{prop.floodZone}</span>
-                    </td>
-                    <td className="px-6 py-4 text-zinc-400">
-                      {prop.hasSeawall ? 'Yes' : 'No'}
-                    </td>
-                    <td className="px-6 py-4">
-                      {matchedBuyer ? (
-                        <div className="inline-flex items-center gap-1.5 bg-green-500/10 border border-green-500/20 text-green-400 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide">
-                          <span>🔥</span>
-                          HOT MATCH: {matchedBuyer.name.toUpperCase()}
-                        </div>
-                      ) : (
-                        <div className="inline-flex items-center text-zinc-500 text-xs font-medium px-3 py-1.5">
-                          Evaluating...
-                        </div>
-                      )}
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {properties.length === 0 && (
+                  <tr>
+                    <td colSpan={6} className="px-4 sm:px-6 py-12 text-center text-gray-500 font-medium">
+                      No properties submitted yet.
                     </td>
                   </tr>
-                )
-              })}
-            </tbody>
-          </table>
+                )}
+                
+                {properties.map((prop) => {
+                  const matchedBuyer = findMatchingBuyer(prop, buyers)
+                  
+                  return (
+                    <tr 
+                      key={prop.id} 
+                      className={`transition-colors hover:bg-gray-50 ${matchedBuyer ? 'bg-green-50/50' : ''}`}
+                    >
+                      <td className="px-4 sm:px-6 py-4 font-mono font-medium text-gray-600">{prop.apn}</td>
+                      <td className="px-4 sm:px-6 py-4 font-semibold text-gray-900">${prop.askingPrice.toLocaleString()}</td>
+                      <td className="px-4 sm:px-6 py-4 text-gray-700">{prop.sqFt.toLocaleString()}</td>
+                      <td className="px-4 sm:px-6 py-4">
+                        <span className="bg-gray-100 border border-gray-200 text-gray-600 px-2.5 py-1 rounded-md text-xs font-semibold">{prop.floodZone}</span>
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 text-gray-600 font-medium">
+                        {prop.hasSeawall ? 'Yes' : 'No'}
+                      </td>
+                      <td className="px-4 sm:px-6 py-4">
+                        {matchedBuyer ? (
+                          <div className="inline-flex items-center gap-1.5 bg-green-100 border border-green-200 text-green-800 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide shadow-sm">
+                            <span>🔥</span>
+                            MATCH: {matchedBuyer.name.toUpperCase()}
+                          </div>
+                        ) : (
+                          <div className="inline-flex items-center text-gray-400 bg-gray-50 border border-gray-100 rounded-full text-xs font-semibold px-3 py-1.5">
+                            No Match
+                          </div>
+                        )}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
         </div>
+        
       </div>
     </div>
   )
