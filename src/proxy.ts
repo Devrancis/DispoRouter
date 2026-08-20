@@ -1,8 +1,7 @@
-// src/middleware.ts
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-export function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   const hasToken = request.cookies.get('dispo_access_token')?.value === 'granted'
   const path = request.nextUrl.pathname
   
