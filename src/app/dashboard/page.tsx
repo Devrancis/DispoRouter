@@ -21,9 +21,14 @@ export default async function DashboardPage() {
             <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-1 sm:mb-2">Disposition Pipeline</h1>
             <p className="text-gray-500 text-sm sm:text-base font-medium">Live property submissions instantly cross-referenced against your active buyers.</p>
           </div>
-          <Link href="/submit" className="w-full sm:w-auto text-center bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 sm:py-2.5 rounded-lg text-sm font-bold shadow-sm transition-colors">
-            + New Deal
-          </Link>
+          <div className="flex gap-3 w-full sm:w-auto">
+            <Link href="/buyers" className="w-full sm:w-auto text-center bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-3 sm:py-2.5 rounded-lg text-sm font-bold shadow-sm transition-colors">
+              Manage Buyers
+            </Link>
+            <Link href="/submit" className="w-full sm:w-auto text-center bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 sm:py-2.5 rounded-lg text-sm font-bold shadow-sm transition-colors">
+              + New Deal
+            </Link>
+          </div>
         </div>
 
         {/* overflow-x-auto ensures the table scrolls left/right on phones instead of breaking the layout */}
