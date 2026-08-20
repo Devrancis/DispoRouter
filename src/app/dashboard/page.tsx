@@ -25,8 +25,8 @@ export default async function DashboardPage() {
         {/* Header section adjusts for mobile */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-6 sm:mb-8 gap-4 sm:gap-0">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-1 sm:mb-2">Dispo Command Center</h1>
-            <p className="text-gray-500 text-sm sm:text-base font-medium">Live submissions cross-referenced with your Buy Boxes.</p>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight mb-1 sm:mb-2">Disposition Pipeline</h1>
+            <p className="text-gray-500 text-sm sm:text-base font-medium">Live property submissions instantly cross-referenced against your active buyers.</p>
           </div>
           <Link href="/submit" className="w-full sm:w-auto text-center bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-3 sm:py-2.5 rounded-lg text-sm font-bold shadow-sm transition-colors">
             + New Deal
