@@ -8,12 +8,16 @@ export default function UnlockPage() {
     const key = formData.get('accessKey')
     
     if (key === process.env.ACCESS_KEY) {
-      // Grant a secure, 30-day access cookie
-      cookies().set('dispo_access_token', 'granted', {
+      // 1. Await the cookies object first 
+      const cookieStore = await cookies()
+      
+      // 2. Set the cookie
+      cookieStore.set('dispo_access_token', 'granted', {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 60 * 60 * 40
+        maxAge: 60 * 60 * 48 
       })
+      
       redirect('/dashboard')
     }
   }
