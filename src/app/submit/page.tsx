@@ -1,13 +1,29 @@
 // src/app/submit/page.tsx
 import { submitProperty } from '../actions'
+import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 export default function SubmitPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4 sm:p-6 font-sans">
       <div className="w-full max-w-md bg-white rounded-2xl border border-gray-200 shadow-xl p-6 sm:p-8">
-        <div className="mb-6 sm:mb-8 border-b border-gray-100 pb-5">
-          <h1 className="text-xl sm:text-2xl font-extrabold text-gray-900 mb-1">New Property Deal</h1>
-          <p className="text-gray-500 text-xs sm:text-sm">Enter deal specs to cross-reference with active buyers.</p>
+        <div className="mb-8 pb-4 border-b border-gray-200">
+          <div className="flex items-center gap-3 mb-3">
+            <Link 
+              href="/dashboard" 
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-gray-600 hover:text-indigo-600 transition-colors bg-white px-3 py-1.5 rounded-lg border border-gray-200 shadow-sm"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Pipeline
+            </Link>
+          </div>
+          
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
+            Submit New Deal
+          </h1>
+          <p className="text-gray-500 mt-1 text-sm sm:text-base font-medium">
+            Enter property details below to instantly cross-reference against active cash buyers.
+          </p>
         </div>
 
         <form action={submitProperty} className="space-y-5">
