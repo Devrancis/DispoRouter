@@ -1,20 +1,8 @@
 'use server'
 
-import { PrismaClient } from '@prisma/client'
-import { PrismaNeon } from '@prisma/adapter-neon'
-import { neonConfig } from '@neondatabase/serverless'
-import ws from 'ws'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { prisma } from '@/lib/prisma'
-
-neonConfig.webSocketConstructor = ws
-
-const adapter = new PrismaNeon({ 
-  connectionString: process.env.DATABASE_URL! 
-})
-
-const prisma = new PrismaClient({ adapter })
 
 export async function submitProperty(formData: FormData) {
   const apn = String(formData.get('apn'))
