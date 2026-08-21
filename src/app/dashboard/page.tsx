@@ -1,7 +1,8 @@
 import { PrismaClient } from '@prisma/client'
 import { findMatchingBuyer } from '../engine'
 import Link from 'next/link'
-import { prisma } from '@/lib/prisma' 
+import { prisma } from '@/lib/prisma'
+import { Home, Users, PlusCircle } from 'lucide-react' 
 
 export const dynamic = 'force-dynamic' 
 
@@ -22,6 +23,12 @@ export default async function DashboardPage() {
             <p className="text-gray-500 text-sm sm:text-base font-medium">Live property submissions instantly cross-referenced against your active buyers.</p>
           </div>
           <div className="flex gap-3 w-full sm:w-auto">
+            <Link 
+              href="/" 
+              className="w-full sm:w-auto text-center inline-flex items-center justify-center gap-1.5 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-3 sm:py-2.5 rounded-lg text-sm font-bold shadow-sm transition-colors">
+              <Home className="w-4 h-4" />
+              Home
+            </Link>
             <Link href="/buyers" className="w-full sm:w-auto text-center bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-3 sm:py-2.5 rounded-lg text-sm font-bold shadow-sm transition-colors">
               Manage Buyers
             </Link>

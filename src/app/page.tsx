@@ -42,7 +42,7 @@ export default function LandingPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-600"></span>
             </span>
-            Enterprise Disposition Engine v2.0
+            Enterprise Disposition Engine
           </motion.div>
           
           <motion.div variants={fadeUp}>

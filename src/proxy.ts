@@ -8,13 +8,12 @@ export default function proxy(request: NextRequest) {
   // Define which pages don't require the password
   const isPublicPage = path === '/' || path === '/unlock'
 
-  // If they have no token and try to access a private page, kick them to unlock
+  // 1. If they have no token and try to access a private page, kick them to unlock
   if (!hasToken && !isPublicPage) {
     return NextResponse.redirect(new URL('/unlock', request.url))
   }
-
-  // If they already have the token and try to view the unlock page or landing page, send them to the dashboard
-  if (hasToken && isPublicPage) {
+  
+  if (hasToken && path === '/unlock') {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 
