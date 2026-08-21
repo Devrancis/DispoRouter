@@ -8,6 +8,7 @@ import {
   Ruler, LayoutDashboard, ArrowUpRight, Clock, 
   ShieldCheck, Server, AlertCircle
 } from 'lucide-react'
+import StatusDropdown from './StatusDropdown'
 
 export const dynamic = 'force-dynamic' 
 
@@ -198,9 +199,7 @@ export default async function DashboardPage() {
                           <td className="py-4 px-6 align-top">
                             <div className="flex items-center gap-2 mb-1">
                               <span className="font-bold text-slate-900 font-mono text-base">{property.apn}</span>
-                              <span className="px-2 py-0.5 rounded text-[10px] font-bold tracking-wide bg-slate-100 text-slate-600 border border-slate-200">
-                                {property.status}
-                              </span>
+                              <StatusDropdown propertyId={property.id} currentStatus={property.status} />
                             </div>
                             <div className="text-xs text-slate-400 font-mono flex items-center gap-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
