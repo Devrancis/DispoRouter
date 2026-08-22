@@ -1,26 +1,29 @@
-import { clerkMiddleware } from '@clerk/nextjs/server'
+import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
+
+// 1. Use Clerk's robust route matcher for your public pages
+const isPublicRoute = createRouteMatcher([
+  '/',
+  '/unlock',
+  '/docs(.*)',
+  '/status(.*)',
+  '/sign-in(.*)',
+  '/sign-up(.*)'
+])
 
 export default clerkMiddleware(async (auth, request) => {
-  const path = request.nextUrl.pathname
-  
-  // Standard JavaScript checks instead of the deprecated matcher
-  const isPublicPage = 
-    path === '/' || 
-    path === '/unlock' ||
-    path.startsWith('/docs') || 
-    path.startsWith('/status') || 
-    path.startsWith('/sign-in') || 
-    path.startsWith('/sign-up')
-
-  // If it's a private page, await the protect function
-  if (!isPublicPage) {
+  // 2. Protect private routes. 
+  // (Clerk's engine is smart enough to bypass this check for /__clerk internal files)
+  if (!isPublicRoute(request)) {
     await auth.protect()
   }
 })
 
 export const config = {
   matcher: [
+    '/__clerk/(.*)',
+    // Skip Next.js internals and static files
     '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
     '/(api|trpc)(.*)',
   ],
 }
