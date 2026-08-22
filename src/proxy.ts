@@ -1,25 +1,26 @@
-import { NextResponse } from 'next/server'
-import type { NextRequest } from 'next/server'
+import { clerkMiddleware } from '@clerk/nextjs/server'
 
-export default function proxy(request: NextRequest) {
-  const hasToken = request.cookies.get('dispo_access_token')?.value === 'granted'
+export default clerkMiddleware(async (auth, request) => {
   const path = request.nextUrl.pathname
   
-  // Define which pages don't require the password
-  const isPublicPage = path === '/' || path === '/unlock'
+  // Standard JavaScript checks instead of the deprecated matcher
+  const isPublicPage = 
+    path === '/' || 
+    path === '/unlock' ||
+    path.startsWith('/docs') || 
+    path.startsWith('/status') || 
+    path.startsWith('/sign-in') || 
+    path.startsWith('/sign-up')
 
-  // 1. If they have no token and try to access a private page, kick them to unlock
-  if (!hasToken && !isPublicPage) {
-    return NextResponse.redirect(new URL('/unlock', request.url))
+  // If it's a private page, await the protect function
+  if (!isPublicPage) {
+    await auth.protect()
   }
-  
-  if (hasToken && path === '/unlock') {
-    return NextResponse.redirect(new URL('/dashboard', request.url))
-  }
-
-  return NextResponse.next()
-}
+})
 
 export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)'],
+  matcher: [
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    '/(api|trpc)(.*)',
+  ],
 }
