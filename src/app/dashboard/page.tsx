@@ -1,7 +1,7 @@
-// src/app/dashboard/page.tsx
 import { prisma } from '@/lib/prisma'
 import { findMatchingBuyer } from '../engine'
 import Link from 'next/link'
+import { auth } from '@clerk/nextjs/server'
 import { 
   Home, Users, PlusCircle, Activity, Building2, 
   CheckCircle2, XCircle, DollarSign, Database, Waves, 
@@ -21,10 +21,19 @@ const formatCurrency = (amount: number) => {
 }
 
 export default async function DashboardPage() {
-  // 1. Fetch both properties AND the full buyers array
+  const { userId } = await auth()
+  
+  if (!userId) return null 
+
+// 1. Parallel Data Fetching
   const [properties, buyers] = await Promise.all([
-    prisma.propertySubmission.findMany({ orderBy: { id: 'desc' } }),
-    prisma.buyer.findMany() // We need the array, not just the count
+    prisma.propertySubmission.findMany({ 
+      where: { userId: userId as string }, 
+      orderBy: { id: 'desc' } 
+    }),
+    prisma.buyer.findMany({
+      where: { userId: userId as string }
+    }) 
   ])
   
   const buyersCount = buyers.length
