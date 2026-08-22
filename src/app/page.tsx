@@ -50,10 +50,10 @@ export default function LandingPage() {
             Dispo<span className="text-indigo-600">Router</span>
           </div>
           <div className="flex items-center gap-4">
-            <Link href="/unlock" className="hidden sm:flex text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors items-center gap-1">
+            <Link href="/sign-in" className="hidden sm:flex text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors items-center gap-1">
               Partner Login
             </Link>
-            <Link href="/unlock" className="bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold px-4 py-2 rounded-lg shadow-sm transition-all flex items-center gap-1.5">
+            <Link href="/sign-in" className="bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold px-4 py-2 rounded-lg shadow-sm transition-all flex items-center gap-1.5">
               Access Vault <Lock className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -83,7 +83,7 @@ export default function LandingPage() {
           </motion.p>
           
           <motion.div variants={fadeUp} className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-            <Link href="/unlock" className="bg-indigo-600 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
+            <Link href="/sign-up" className="bg-indigo-600 text-white font-bold text-lg px-8 py-4 rounded-xl hover:bg-indigo-700 transition-all shadow-xl shadow-indigo-200 hover:-translate-y-0.5 flex items-center justify-center gap-2 group">
               Initialize Pipeline 
               <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
@@ -299,7 +299,7 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto relative z-10">
           <h2 className="text-4xl sm:text-5xl font-black text-white mb-6 tracking-tight">Ready to automate your desk?</h2>
           <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">Stop leaving margin on the table due to slow operations. Deploy your bespoke disposition engine today.</p>
-          <Link href="/unlock" className="inline-flex items-center gap-2 bg-indigo-500 text-white font-bold text-lg px-10 py-5 rounded-xl hover:bg-indigo-400 transition-all shadow-xl hover:-translate-y-1">
+          <Link href="/sign-in" className="inline-flex items-center gap-2 bg-indigo-500 text-white font-bold text-lg px-10 py-5 rounded-xl hover:bg-indigo-400 transition-all shadow-xl hover:-translate-y-1">
             <Lock className="w-5 h-5" />
             Enter The Vault
           </Link>
@@ -319,7 +319,7 @@ export default function LandingPage() {
           <div className="flex gap-6 text-sm font-bold text-slate-400">
             <Link href="/docs" className="hover:text-white transition-colors">Documentation</Link>
             <Link href="/status" className="hover:text-white transition-colors">API Status</Link>
-            <Link href="/unlock" className="hover:text-white transition-colors">Login</Link>
+            <Link href="/sign-in" className="hover:text-white transition-colors">Login</Link>
           </div>
         </div>
       </footer>
