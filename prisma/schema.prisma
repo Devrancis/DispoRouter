@@ -4,10 +4,12 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Buyer {
   id              String   @id @default(cuid())
+  userId          String   
   name            String
   budgetMax       Int      
   floodZone       String   
@@ -17,6 +19,7 @@ model Buyer {
 
 model PropertySubmission {
   id              String   @id @default(cuid())
+  userId          String   
   apn             String   
   askingPrice     Int
   floodZone       String
