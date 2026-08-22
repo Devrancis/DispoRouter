@@ -1,38 +1,36 @@
 'use server'
 
-import { prisma } from '@/lib/prisma'
 import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
+import { prisma } from '@/lib/prisma'
+import { auth } from '@clerk/nextjs/server'
 
-export async function addBuyer(formData: FormData) {
-  const name = formData.get('name') as string
+export async function createBuyer(formData: FormData) {
+  // 1. Get logged-in user
+  const { userId } = await auth()
+
+  if (!userId) {
+    throw new Error('Unauthorized: You must be logged in to create a buyer.')
+  }
+
+  const name = String(formData.get('name'))
   const budgetMax = Number(formData.get('budgetMax'))
   const minSqFt = Number(formData.get('minSqFt'))
-  const floodZone = formData.get('floodZone') as string
-  // Checkbox returns 'on' if checked, null if not
-  const requiresSeawall = formData.get('requiresSeawall') === 'on'
+  const floodZone = String(formData.get('floodZone'))
+  const requiresSeawall = formData.get('requiresSeawall') === 'on' || formData.get('requiresSeawall') === 'true'
 
+  // 2. Pass userId into the creation payload
   await prisma.buyer.create({
     data: {
+      userId, // <--- Added userId here
       name,
       budgetMax,
       minSqFt,
       floodZone,
-      requiresSeawall
-    }
+      requiresSeawall,
+    },
   })
 
-  // Refresh the page data instantly
-  revalidatePath('/buyers')
-  revalidatePath('/dashboard') 
-}
-
-export async function deleteBuyer(formData: FormData) {
-  const id = formData.get('id') as string
-  
-  await prisma.buyer.delete({
-    where: { id }
-  })
-
-  revalidatePath('/buyers')
   revalidatePath('/dashboard')
+  redirect('/dashboard')
 }
