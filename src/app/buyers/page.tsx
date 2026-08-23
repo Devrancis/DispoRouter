@@ -1,11 +1,25 @@
 import { prisma } from '@/lib/prisma'
 import { addBuyer, deleteBuyer } from './actions'
 import Link from 'next/link'
+import { auth } from '@clerk/nextjs/server'
+import { redirect } from 'next/navigation'
 
 export const dynamic = 'force-dynamic'
 
 export default async function BuyersPage() {
+  // Grab the active user from Clerk
+  const { userId } = await auth()
+
+  // Boot them to login if they aren't authenticated
+  if (!userId) {
+    redirect('/sign-in')
+  }
+
+  // Lock the query to ONLY this specific user's ID
   const buyers = await prisma.buyer.findMany({
+    where: {
+      userId: userId
+    },
     orderBy: { id: 'desc' }
   })
 
